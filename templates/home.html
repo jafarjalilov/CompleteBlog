@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} Bosh sahifa {% endblock title %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2>Xush kelibsiz, {{ user.username }}</h2>
+        <p><a href="{% url 'logout' %}">LOGOUT</a> | <a href="{% url 'password_change' %}">CHANGE PASSWORD</a></p>
+    {% else %}
+        <h2>Siz saytga kirmagansiz</h2>
+        <p><a href="{% url 'login' %}">LOGIN</a> | <a href="{% url 'signup' %}">SIGNUP</a></p>
+    {% endif %}
+{% endblock content %}
