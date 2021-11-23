@@ -4,7 +4,6 @@ from accounts.models import CustomUser
 from django.urls import reverse
 from taggit.managers import TaggableManager
 
-# Create your models here.
 
 class Post(models.Model):
     STATUS_CHOICES = (('draft', 'Draft'), ('published', 'Published'))

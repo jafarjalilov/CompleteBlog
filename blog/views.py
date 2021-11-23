@@ -46,13 +46,12 @@ def post_detail(request, year, month, day, post):
             new_comment = comment_form.save(commit=False) # Create Comment Objet but don't save to database
             new_comment.post = post #Assign the post to new comment
             new_comment.save() # Save the comment to database
-        
     else:
         comment_form = CommentForm()
 
     #Retrieving Posts by SIMILARITY
     post_tags_ids = post.tags.values_list('id', flat=True)
-    similar_posts = Post.objects.all().filter(tags__in=post_tags_ids).exclude(id=post.id) # Post.published.filter instead of objects.all()filter 
+    similar_posts = Post.objects.all().filter(tags__in=post_tags_ids).exclude(id=post.id) # Post.published.filter instead of objects.all().filter...
     similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags',)[:4] # inter the '-published' order
 
     return render(request, 'blog/detail.html', {'post': post, 'comments':comments, 'new_comment':new_comment, 'comment_form': comment_form, "similar_posts": similar_posts})
@@ -80,7 +79,7 @@ def post_share(request, post_id):
 
 
 def post_search(request):
-    form = SearchForm():
+    form = SearchForm()
     query = None
     results = []
     if 'query' in request.GET:
@@ -90,5 +89,3 @@ def post_search(request):
             results = Post.objects.all().annotate(search=SearchVector('title', 'body'),).filter(search=query)
         
     return render(request, 'blog/search.html', {'form':form, 'query':query, 'results':results})
-    
-
